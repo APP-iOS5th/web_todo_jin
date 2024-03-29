@@ -39,9 +39,9 @@
       document.getElementById('todoInput').focus();
 
       // check done
-      document.querySelectorAll('.todo').forEach((todo) => {
-        todo.addEventListener('click', () => doneTodo(todo));
-      });
+      if(document.querySelectorAll('#todoList .todo')) {
+        btnDone();
+      }
     });
     /* start apply input */
     document.getElementById('btnAddTodo').addEventListener('click', () => {
@@ -60,12 +60,31 @@
       }
     });
     const clearInput = () => document.getElementById('todoInput').value = '';
+
+    // done click action
+    const btnDone = () => {
+      document.querySelectorAll('#todoList .todo').forEach((todo) => {
+        todo.addEventListener('click', () => doneTodo(todo));
+      });
+    }
     /* end apply input */
     
     /* start maintain todos */ 
     const loadTodos = () => {
       let todos = JSON.parse(localStorage.getItem('todos'));
-      todos.forEach((todo) => addTodo(todo));
+      if(todos) {
+        todos.forEach((todo) => addDoneTodo(todo));
+      }
+    }
+    const addDoneTodo = (todo) => {
+      console.log(todo);
+      let todoList = document.getElementById('todoList');
+
+      let item = document.createElement('li');
+      item.innerText = todo;
+      item.classList.add('list-group-item', 'todo');
+      item.innerHTML = todo;
+      todoList.appendChild(item);
     }
     const addTodo = (todo) => {
       let todoList = document.getElementById('todoList');
@@ -82,6 +101,8 @@
       btnDoneTodo.appendChild(iconCheck);
       item.appendChild(btnDoneTodo);
       todoList.appendChild(item);
+
+      btnDone();
     }
     const storeTodos = () => {
       let todos = [];
