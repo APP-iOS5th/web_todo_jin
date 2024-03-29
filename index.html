@@ -114,7 +114,9 @@
     }
     const doneTodo = (todo) => {
       let text = todo.innerText;
-      todo.innerHTML = todo.innerHTML.replace(text, '<s>'+text+'</s>');
+      if(!todo.querySelector('s')) {
+        todo.innerHTML = todo.innerHTML.replace(text, '<s>'+text+'</s>');
+      }
       let btnCheck = todo.querySelector('button');
       btnCheck.classList.remove('btn-primary');
       btnCheck.style.color = 'grey';
